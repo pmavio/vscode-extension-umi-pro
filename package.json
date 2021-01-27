@@ -28,9 +28,6 @@
     "travis-publish": "vsce publish -p $VS_TOKEN",
     "test": "yarn run compile && CODE_TESTS_WORKSPACE=src/test/fixtures/testWorkspace.code-workspace node ./node_modules/vscode/bin/test"
   },
-  "pre-commit": [
-    "lint"
-  ],
   "config": {
     "commitizen": {
       "path": "node_modules/cz-conventional-changelog"
@@ -121,7 +118,6 @@
     "glob": "^7.1.3",
     "istanbul": "^0.4.5",
     "mocha": "^6.1.4",
-    "pre-commit": "^1.2.2",
     "prettier": "^1.17.1",
     "remap-istanbul": "^0.13.0",
     "sinon": "^7.3.2",
