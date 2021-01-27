@@ -66,7 +66,7 @@ class _UmircParser implements IUmircParser {
       const { key, start, end, loc } = prop;
       if (isNotNull(key) && isNotNull(start) && isNotNull(end) && isNotNull(loc)) {
         return {
-          key: key.name,
+          key: key['name'],
           start: start,
           end: end,
           loc: loc,
@@ -78,7 +78,7 @@ class _UmircParser implements IUmircParser {
       const { key, start, end, loc } = prop;
       if (isNotNull(key) && isNotNull(start) && isNotNull(end) && isNotNull(loc)) {
         return {
-          key: key.name,
+          key: key['name'],
           start: start,
           end: end,
           loc: loc,

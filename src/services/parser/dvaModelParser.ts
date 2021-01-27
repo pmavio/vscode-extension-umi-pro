@@ -6,11 +6,13 @@ import {
   isExportDefaultDeclaration,
   isObjectExpression,
   ObjectExpression,
+  Expression,
   Node,
   isObjectProperty,
   isStringLiteral,
   isObjectMethod,
   isCallExpression,
+  isTSAsExpression,
 } from '@babel/types';
 import generate from '@babel/generator';
 import { Service, Token, Inject } from 'typedi';
@@ -53,8 +55,12 @@ class _DvaModelParser implements IDvaModelParser {
         const args = model.arguments.filter((o): o is ObjectExpression => isObjectExpression(o));
         modelObjects.push(...args);
       }
+      if (isTSAsExpression(model)) {
+        modelObjects.push(model.expression as ObjectExpression)
+      }
     }
-    return modelObjects.map(o => this.parseObjectExpression(o)).filter(o => !!o) as IDvaModel[];
+    const parsedModelObjects = modelObjects.map(o => this.parseObjectExpression(o));
+    return parsedModelObjects.filter(o => !!o) as IDvaModel[];
   }
 
   private parseObjectExpression(ast: ObjectExpression): IDvaModel | null {
@@ -67,7 +73,7 @@ class _DvaModelParser implements IDvaModelParser {
       if (!isObjectProperty(property)) {
         return;
       }
-      const key = property.key.name;
+      const key = property.key['name'];
       if (key === 'namespace' && isStringLiteral(property.value)) {
         result.namespace = property.value.value;
         return;
@@ -76,16 +82,17 @@ class _DvaModelParser implements IDvaModelParser {
       if (isEffectsOrReducers && isObjectExpression(property.value)) {
         const { value } = property;
         value.properties.forEach(valueProperty => {
-          if (!isObjectMethod(valueProperty)) {
-            return;
+          try {
+            const methodName = valueProperty['key']['name'];
+            const { code } = generate(valueProperty);
+            const { loc } = valueProperty;
+            result[key][methodName] = {
+              code,
+              loc,
+            };
+          } catch (e) {
+            // TODO:
           }
-          const methodName = valueProperty.key.name;
-          const { code } = generate(valueProperty);
-          const { loc } = valueProperty;
-          result[key][methodName] = {
-            code,
-            loc,
-          };
         });
       }
     });

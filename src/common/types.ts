@@ -82,4 +82,4 @@ export const JS_EXT_NAMES = ['.js', '.jsx', '.ts', '.tsx'];
 
 export const EXCLUDE_EXT_NAMES = ['.d.ts', '.test.js', '.test.jsx', '.test.ts', '.test.tsx'];
 
-export const SUPPORT_LANGUAGE = ['javascript', 'typescript', 'typescriptreact'];
+export const SUPPORT_LANGUAGE = ['javascript', 'javascriptreact', 'typescript', 'typescriptreact'];

@@ -34,7 +34,7 @@ export interface IModelEffectsParser {
 
 export const ModelEffectsParserToken = new Token<IModelEffectsParser>();
 
-const reduxSagaEffectsCommands = ['put', 'call', 'select', 'cancel', 'take', 'all'];
+const reduxSagaEffectsCommands = ['put', 'call', 'select', 'cancel', 'take', 'all', 'resolve', 'put.resolve'];
 
 @Service(ModelEffectsParserToken)
 // eslint-disable-next-line @typescript-eslint/class-name-casing

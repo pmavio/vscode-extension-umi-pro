@@ -70,7 +70,7 @@ class _LocaleParser implements ILocaleParser {
           let propKey: string = '';
 
           if (isObjectProperty(p)) {
-            propKey = p.key.name;
+            propKey = p.key['name'];
             if (isStringLiteral(p.key)) {
               propKey = p.key.value;
               propLoc = p.key.loc;
